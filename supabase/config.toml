@@ -1,0 +1,21 @@
+project_id = "esk_lab_04_licensing"
+[api]
+enabled = true
+port = 55321
+[db]
+port = 55322
+shadow_port = 55320
+major_version = 17
+[studio]
+enabled = true
+port = 55323
+[inbucket]
+enabled = true
+port = 55324
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000/**"]
+enable_signup = true
+[auth.email]
+enable_confirmations = false

@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validateCsv} from '../src/lib/import-policy.mjs';
+const A='11111111-1111-4111-8111-111111111111';
+const B='22222222-2222-4222-8222-222222222222';
+const header='organization_id,name,expires_on';
+test('accepts minimal valid CSV',()=>assert.equal(validateCsv(`${header}\n${A},License A,2027-01-02`,A).length,1));
+test('rejects cross-tenant CSV',()=>assert.throws(()=>validateCsv(`${header}\n${B},License B,2027-01-02`,A),/Cross-tenant/));
+test('rejects alternate headers',()=>assert.throws(()=>validateCsv(`role,name\nadmin,test`,A),/headers/));
+test('rejects formula injection',()=>assert.throws(()=>validateCsv(`${header}\n${A},=HYPERLINK(1),2027-01-02`,A),/name/));
+test('rejects impossible dates',()=>assert.throws(()=>validateCsv(`${header}\n${A},License A,2027-02-30`,A),/date/));
+test('rejects oversized CSV',()=>assert.throws(()=>validateCsv('a'.repeat(65537),A),/size/));
+test('rejects more than 100 rows',()=>assert.throws(()=>validateCsv(`${header}\n`+Array(101).fill(`${A},License,2027-01-02`).join('\n'),A),/row count/));

@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Home() {return <section className="intro"><p className="eyebrow">Independent engineering demo / ESK-LAB-04</p><h1>Manage licenses.<br/>Respect boundaries.</h1><p>A local-first demonstration of organization-scoped licensing, authentication, role-based authorization and PostgreSQL row-level security.</p><Link href="/dashboard" className="btn">Open dashboard</Link><p className="muted">Uses synthetic organizations. No hosting or production claims.</p></section>}
